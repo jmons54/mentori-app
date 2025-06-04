@@ -2,6 +2,8 @@ import {
   IsEmail,
   IsPhoneNumber,
   IsStrongPassword,
+  IsOptional,
+  IsDateString,
   MinLength,
   Validate,
   ValidateIf,
@@ -11,15 +13,31 @@ import { UserAlreadyExistValidator } from '../validators/user.validator';
 
 export class RegisterDto {
   @ApiProperty({
-    description: 'The name of the user',
-    minLength: 3,
-    example: 'John Doe',
+    description: 'Prénom de l’utilisateur',
+    example: 'John',
+    minLength: 2,
   })
-  @MinLength(3)
-  name: string;
+  @MinLength(2)
+  firstName: string;
+
+  @ApiProperty({
+    description: 'Nom de l’utilisateur',
+    example: 'Doe',
+    minLength: 2,
+  })
+  @MinLength(2)
+  lastName: string;
 
   @ApiPropertyOptional({
-    description: 'The email of the user, required if phone is not provided',
+    description: 'Date de naissance au format ISO',
+    example: '1990-05-10',
+  })
+  @IsOptional()
+  @IsDateString()
+  birthdate?: string;
+
+  @ApiPropertyOptional({
+    description: 'Email (requis si téléphone absent)',
     example: 'user@example.com',
   })
   @ValidateIf((o) => !o.phone)
@@ -27,24 +45,37 @@ export class RegisterDto {
   @Validate(UserAlreadyExistValidator, {
     message: 'Email already exists',
   })
-  public email?: string;
+  email?: string;
 
   @ApiPropertyOptional({
-    description:
-      'The phone number of the user, required if email is not provided',
-    example: '+1234567890',
+    description: 'Numéro de téléphone (requis si email absent)',
+    example: '+33612345678',
   })
   @ValidateIf((o) => !o.email)
   @IsPhoneNumber()
   @Validate(UserAlreadyExistValidator, {
     message: 'Phone number already exists',
   })
-  public phone?: string;
+  phone?: string;
+
+  @ApiPropertyOptional({
+    description: 'Ville de résidence',
+    example: 'Paris',
+  })
+  @IsOptional()
+  city?: string;
+
+  @ApiPropertyOptional({
+    description: 'Profession',
+    example: 'Coach sportif',
+  })
+  @IsOptional()
+  profession?: string;
 
   @ApiProperty({
-    description: 'The password of the user, must be strong',
+    description: 'Mot de passe sécurisé',
     example: 'Str0ngP@ssword!',
   })
   @IsStrongPassword()
-  public password: string;
+  password: string;
 }

@@ -5,10 +5,19 @@ import { BaseEntity } from '../../entities/base.entity';
 @Entity('user')
 export class UserEntity extends BaseEntity {
   @Column()
-  name: string;
+  firstName: string;
 
-  @Column({ unique: true, nullable: true })
-  googleId: string;
+  @Column()
+  lastName: string;
+
+  @Column({ nullable: true })
+  profession?: string;
+
+  @Column({ nullable: true })
+  city?: string;
+
+  @Column({ type: 'date', nullable: true })
+  birthdate?: Date;
 
   @Column({ unique: true, nullable: true })
   email?: string;
@@ -22,6 +31,12 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   photo?: string;
 
+  @Column({ unique: true, nullable: true })
+  googleId?: string;
+
   @Column('varchar', { array: true })
   roles: Role[] = [Role.User];
+
+  @Column({ default: true })
+  isActive: boolean;
 }

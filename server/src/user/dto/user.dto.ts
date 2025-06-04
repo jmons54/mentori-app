@@ -4,34 +4,96 @@ import { UserEntity } from '../entities/user.entity';
 
 export class UserDto {
   @ApiProperty({
-    description: 'Unique identifier of the user',
+    description: 'Identifiant unique de l’utilisateur',
     example: 1,
   })
   userId: number;
 
   @ApiProperty({
-    description: 'Name of the user',
-    example: 'John Doe',
+    description: 'Prénom',
+    example: 'John',
   })
-  name: string;
+  firstName: string;
 
   @ApiProperty({
-    description: 'List of roles assigned to the user',
+    description: 'Nom de famille',
+    example: 'Doe',
+  })
+  lastName: string;
+
+  @ApiProperty({
+    description: 'Adresse email',
+    example: 'john.doe@example.com',
+    required: false,
+  })
+  email?: string;
+
+  @ApiProperty({
+    description: 'Téléphone',
+    example: '+33612345678',
+    required: false,
+  })
+  phone?: string;
+
+  @ApiProperty({
+    description: 'Ville',
+    example: 'Paris',
+    required: false,
+  })
+  city?: string;
+
+  @ApiProperty({
+    description: 'Profession',
+    example: 'Coach sportif',
+    required: false,
+  })
+  profession?: string;
+
+  @ApiProperty({
+    description: 'Date de naissance',
+    example: '1990-01-01',
+    required: false,
+  })
+  birthdate?: Date;
+
+  @ApiProperty({
+    description: 'Photo de profil (URL)',
+    example: 'https://example.com/photo.jpg',
+    required: false,
+  })
+  photo?: string;
+
+  @ApiProperty({
+    description: 'L’utilisateur est-il actif ?',
+    example: true,
+  })
+  isActive: boolean;
+
+  @ApiProperty({
+    description: 'Rôles attribués',
     isArray: true,
     enum: Role,
-    example: [Role.User, Role.Admin],
+    example: [Role.User],
   })
   roles: Role[];
 
-  static fromEntity(user: UserEntity) {
+  static fromEntity(user: UserEntity): UserDto {
     const dto = new UserDto();
     dto.userId = user.id;
-    dto.name = user.name;
+    dto.firstName = user.firstName;
+    dto.lastName = user.lastName;
+    dto.email = user.email;
+    dto.phone = user.phone;
+    dto.city = user.city;
+    dto.profession = user.profession;
+    dto.birthdate = user.birthdate;
+    dto.photo = user.photo;
+    dto.isActive = user.isActive;
     dto.roles = user.roles;
     return dto;
   }
 
-  static fromEntities(users: UserEntity[]) {
-    return users.map((user) => UserDto.fromEntity(user));
+  static fromEntities(users: UserEntity[]): UserDto[] {
+    return users.map(UserDto.fromEntity);
   }
 }

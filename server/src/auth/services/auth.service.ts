@@ -29,12 +29,27 @@ export class AuthService {
     return null;
   }
 
-  async register({ name, email, phone, password }: RegisterDto) {
-    const hash = await hashPassword(password);
-    return await this.userService.createAndSave({
-      name,
+  async register(dto: RegisterDto) {
+    const {
+      firstName,
+      lastName,
+      birthdate,
       email,
       phone,
+      password,
+      city,
+      profession,
+    } = dto;
+
+    const hash = await hashPassword(password);
+    return await this.userService.createAndSave({
+      firstName,
+      lastName,
+      birthdate,
+      email,
+      phone,
+      city,
+      profession,
       password: hash,
     });
   }
@@ -49,10 +64,11 @@ export class AuthService {
       idToken,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const { sub, email, email_verified, name } = ticket.getPayload();
+    const { sub, email, email_verified } = ticket.getPayload();
     if (!email_verified) {
       throw new UnauthorizedException();
     }
+
     let user = await this.userService.findOneByGoogleId(sub);
     if (!user) {
       user = await this.userService.findOneByIdentifier(email);
@@ -63,22 +79,24 @@ export class AuthService {
         user = await this.userService.createAndSave({
           googleId: sub,
           email,
-          name,
         });
       }
     }
+
     if (!user) {
       throw new UnauthorizedException();
     }
+
     return this.getAccessToken(user);
   }
 
-  private getAccessToken({ id, name, roles }: User) {
+  private getAccessToken({ id, firstName, lastName, roles }: User) {
     return {
       accessToken: this.jwtService.sign(
         {
           sub: id,
-          name,
+          firstName,
+          lastName,
           roles,
         },
         {

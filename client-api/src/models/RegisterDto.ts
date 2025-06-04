@@ -4,19 +4,35 @@
 /* eslint-disable */
 export type RegisterDto = {
   /**
-   * The name of the user
+   * Prénom de l’utilisateur
    */
-  name: string;
+  firstName: string;
   /**
-   * The email of the user, required if phone is not provided
+   * Nom de l’utilisateur
+   */
+  lastName: string;
+  /**
+   * Date de naissance au format ISO
+   */
+  birthdate?: string;
+  /**
+   * Email (requis si téléphone absent)
    */
   email?: string;
   /**
-   * The phone number of the user, required if email is not provided
+   * Numéro de téléphone (requis si email absent)
    */
   phone?: string;
   /**
-   * The password of the user, must be strong
+   * Ville de résidence
+   */
+  city?: string;
+  /**
+   * Profession
+   */
+  profession?: string;
+  /**
+   * Mot de passe sécurisé
    */
   password: string;
 };

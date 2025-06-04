@@ -20,26 +20,51 @@ export function Members() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10">
-      <h1 className="text-2xl mb-4">Liste des membres</h1>
-      <ul className="space-y-2">
-        {members.map((member) => (
-          <li
-            key={member.userId}
-            className="border p-4 rounded shadow-sm flex justify-between items-center"
+    <div className="max-w-4xl mx-auto mt-10 px-4">
+      <h1 className="text-2xl font-semibold mb-6">Liste des membres</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {members.map((membre) => (
+          <div
+            key={membre.userId}
+            className="border rounded-lg shadow-md p-4 flex gap-4 items-center"
           >
-            <strong>{member.name}</strong>
+            <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+              {membre.photo ? (
+                <img
+                  src={membre.photo}
+                  alt={`${membre.firstName} ${membre.lastName}`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full w-full text-gray-400 text-sm">
+                  ?
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-mentori-green">
+                {membre.firstName} {membre.lastName}
+              </h3>
+              <p className="text-sm text-gray-600">{membre.profession}</p>
+              {membre.city && (
+                <div className="mt-1 text-xs px-2 py-0.5 bg-pastel-blue inline-block rounded-full">
+                  {membre.city}
+                </div>
+              )}
+            </div>
+
             {canEdit && (
               <button
-                onClick={() => handleEdit(member)}
-                className="text-blue-600 underline text-sm"
+                onClick={() => handleEdit(membre)}
+                className="text-sm text-blue-600 underline ml-2"
               >
                 Modifier
               </button>
             )}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {showModal && selectedMember && (
         <EditMemberModal

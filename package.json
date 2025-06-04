@@ -1,5 +1,5 @@
 {
-  "name": "@org/source",
+  "name": "@org/mentori",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -29,7 +29,6 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
-    "@react-oauth/google": "^0.12.2",
     "aws-sdk": "^2.1651.0",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
