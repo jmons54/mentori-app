@@ -1,7 +1,9 @@
 import { FormEvent, useState } from 'react';
-import { AuthService } from '@/client-api';
+import { useNavigate } from 'react-router-dom';
+import { AuthService, OpenAPI } from '@/client-api';
 
 export function Login() {
+  const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,11 +15,13 @@ export function Login() {
       identifier,
       password,
     })
-      .then(() => {
-        window.location.href = '/dashboard'; // à adapter
+      .then(({ accessToken }) => {
+        OpenAPI.TOKEN = accessToken;
+        localStorage.setItem('jwt', accessToken);
+        navigate('/');
       })
-      .catch((err) => {
-        setError(err.message || 'Identifiants invalides');
+      .catch(() => {
+        setError('Identifiants invalides');
       });
   };
 
