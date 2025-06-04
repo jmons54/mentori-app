@@ -33,6 +33,7 @@ module.exports = {
     new NxReactWebpackPlugin(),
     new webpack.EnvironmentPlugin({
       REACT_APP_SERVER_URL: '',
+      REACT_APP_GOOGLE_CLIENT_ID: '',
     }),
   ],
 };

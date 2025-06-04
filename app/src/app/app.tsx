@@ -6,9 +6,9 @@ import { Members } from '../pages/members';
 import { PrivateRoute } from './privateRoute';
 
 OpenAPI.BASE = process.env.REACT_APP_SERVER_URL as string;
+console.log(process.env.REACT_APP_SERVER_URL);
 
 export function App() {
-  console.log(process.env.REACT_APP_SERVER_URL);
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
