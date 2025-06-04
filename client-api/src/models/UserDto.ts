@@ -11,5 +11,9 @@ export type UserDto = {
    * Name of the user
    */
   name: string;
+  /**
+   * List of roles assigned to the user
+   */
+  roles: Array<'user' | 'admin'>;
 };
 

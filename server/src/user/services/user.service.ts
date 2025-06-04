@@ -11,14 +11,16 @@ export class UserService {
   ) {}
 
   findOneByIdentifier(identifier: string) {
-    return this.userRepository.findOneBy([
-      { email: identifier },
-      { phone: identifier },
-    ]);
+    return this.userRepository.findOne({
+      where: [
+        { email: identifier, isActive: true },
+        { phone: identifier, isActive: true },
+      ],
+    });
   }
 
   findOneByGoogleId(googleId: string) {
-    return this.userRepository.findOneBy({ googleId });
+    return this.userRepository.findOneBy({ googleId, isActive: true });
   }
 
   createAndSave(data: DeepPartial<UserEntity>) {
@@ -49,6 +51,13 @@ export class UserService {
   }
 
   findAll(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      order: {
+        createdAt: 'ASC',
+      },
+      where: {
+        isActive: true,
+      },
+    });
   }
 }

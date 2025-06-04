@@ -21,7 +21,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   me(@Request() { user }: { user: UserEntity }) {
-    return user;
+    return UserDto.fromEntity(user);
   }
 
   @ApiResponse({
@@ -35,6 +35,6 @@ export class UserController {
   @Get()
   async findAll() {
     const users = await this.userService.findAll();
-    return plainToInstance(UserDto, users);
+    return UserDto.fromEntities(users);
   }
 }
