@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
-import { ExerciseHttpModule } from '../exercise/exercise-http.module';
 import { AuthHttpModule } from '../auth/auth-http.module';
-import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
@@ -19,9 +16,7 @@ import { AdminModule } from '../admin/admin.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    ExerciseHttpModule,
     AuthHttpModule,
-    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

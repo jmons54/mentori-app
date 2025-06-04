@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
@@ -7,7 +7,7 @@ import { UserEntity } from '../entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>
+    readonly userRepository: Repository<UserEntity>
   ) {}
 
   findOneByIdentifier(identifier: string) {
@@ -18,9 +18,7 @@ export class UserService {
   }
 
   findOneByGoogleId(googleId: string) {
-    return this.userRepository.findOneBy({
-      googleId,
-    });
+    return this.userRepository.findOneBy({ googleId });
   }
 
   createAndSave(data: DeepPartial<UserEntity>) {
@@ -30,5 +28,27 @@ export class UserService {
 
   save(user: UserEntity) {
     return this.userRepository.save(user);
+  }
+
+  async update(id: number, data: DeepPartial<UserEntity>) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const updated = this.userRepository.merge(user, data);
+    return this.userRepository.save(updated);
+  }
+
+  async active(id: number, active: boolean) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.isActive = active;
+    return this.userRepository.save(user);
+  }
+
+  findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
   }
 }

@@ -17,4 +17,14 @@ export class UserService {
       url: '/api/user/me',
     });
   }
+  /**
+   * @returns UserDto
+   * @throws ApiError
+   */
+  public static findAll(): CancelablePromise<Array<UserDto>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/user',
+    });
+  }
 }
