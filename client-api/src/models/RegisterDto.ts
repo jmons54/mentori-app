@@ -35,5 +35,9 @@ export type RegisterDto = {
    * Mot de passe sécurisé
    */
   password: string;
+  /**
+   * Image file of the exercise category
+   */
+  avatar?: Blob;
 };
 

@@ -48,7 +48,7 @@ export function Members() {
               </h3>
               <p className="text-sm text-gray-600">{membre.profession}</p>
               {membre.city && (
-                <div className="mt-1 text-xs px-2 py-0.5 bg-pastel-blue inline-block rounded-full">
+                <div className="mt-1 text-xs px-2 py-0.5 bg-blue-200 inline-block rounded-full">
                   {membre.city}
                 </div>
               )}

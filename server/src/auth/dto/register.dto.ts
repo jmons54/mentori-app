@@ -78,4 +78,13 @@ export class RegisterDto {
   })
   @IsStrongPassword()
   password: string;
+
+  @ApiProperty({
+    description: 'Image file of the exercise category',
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  @IsOptional()
+  avatar?: Blob;
 }

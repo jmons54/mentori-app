@@ -12,13 +12,19 @@ export function Register() {
     city: '',
     profession: '',
     password: '',
+    avatar: null as File | null,
   });
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === 'avatar' && files?.[0]) {
+      setForm({ ...form, avatar: files[0] });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const nextStep = () => setStep((s) => s + 1);
@@ -33,6 +39,7 @@ export function Register() {
       await AuthService.register({
         ...form,
         birthdate: new Date(form.birthdate).toISOString(),
+        avatar: form.avatar || undefined,
       });
       setSuccess(true);
     } catch {
@@ -47,6 +54,7 @@ export function Register() {
       {success && <p className="text-green-600">Inscription réussie</p>}
       {error && <p className="text-red-500">{error}</p>}
 
+      {/* Étape 1 : Infos personnelles */}
       {step === 1 && (
         <>
           <input
@@ -76,6 +84,7 @@ export function Register() {
         </>
       )}
 
+      {/* Étape 2 : Coordonnées */}
       {step === 2 && (
         <>
           <input
@@ -94,11 +103,6 @@ export function Register() {
             onChange={handleChange}
             className="w-full border p-2"
           />
-        </>
-      )}
-
-      {step === 3 && (
-        <>
           <input
             name="city"
             placeholder="Ville"
@@ -116,6 +120,28 @@ export function Register() {
         </>
       )}
 
+      {/* Étape 3 : Upload image */}
+      {step === 3 && (
+        <>
+          <label className="block">Photo de profil</label>
+          <input
+            type="file"
+            name="avatar"
+            accept="image/*"
+            onChange={handleChange}
+            className="w-full border p-2"
+          />
+          {form.avatar && (
+            <img
+              src={URL.createObjectURL(form.avatar)}
+              alt="Preview"
+              className="mt-2 max-h-40 rounded"
+            />
+          )}
+        </>
+      )}
+
+      {/* Étape 4 : Mot de passe */}
       {step === 4 && (
         <input
           name="password"
@@ -128,6 +154,7 @@ export function Register() {
         />
       )}
 
+      {/* Navigation */}
       <div className="flex justify-between pt-4">
         {step > 1 && (
           <button

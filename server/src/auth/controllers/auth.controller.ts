@@ -4,11 +4,14 @@ import {
   HttpCode,
   Post,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBody,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
@@ -19,12 +22,14 @@ import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { UserEntity } from '../../user/entities/user.entity';
 import { GoogleAuthDto } from '../dto/google-auth.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({
     description: 'User successfully registered',
   })
@@ -35,8 +40,12 @@ export class AuthController {
     operationId: 'register',
   })
   @Post('register')
-  async register(@Body() body: RegisterDto) {
-    await this.authService.register(body);
+  @UseInterceptors(FileInterceptor('avatar'))
+  async register(
+    @Body() body: RegisterDto,
+    @UploadedFile() avatar: Express.Multer.File
+  ) {
+    await this.authService.register(body, avatar);
   }
 
   @ApiResponse({

@@ -6,6 +6,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { UserAlreadyExistValidator } from './validators/user.validator';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { AwsS3Service } from '../aws/aws-s3.service';
 
 @Module({
   imports: [UserModule, PassportModule, JwtModule],
@@ -14,6 +15,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     LocalStrategy,
     JwtStrategy,
     UserAlreadyExistValidator,
+    AwsS3Service,
   ],
 })
 export class AuthModule {}
