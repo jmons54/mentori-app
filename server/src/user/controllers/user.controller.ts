@@ -1,10 +1,17 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserDto } from '../dto/user.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UserEntity } from '../entities/user.entity';
-import { plainToInstance } from 'class-transformer';
 import { UserService } from '../services/user.service';
+import { UpdateUserDto } from '../dto/update.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -20,8 +27,9 @@ export class UserController {
   })
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  me(@Request() { user }: { user: UserEntity }) {
-    return UserDto.fromEntity(user);
+  async me(@Request() { user }: { user: UserEntity }) {
+    const data = await this.userService.findById(user.id);
+    return UserDto.fromEntity(data);
   }
 
   @ApiResponse({
@@ -36,5 +44,23 @@ export class UserController {
   async findAll() {
     const users = await this.userService.findAll();
     return UserDto.fromEntities(users);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: UserDto,
+  })
+  @ApiOperation({
+    operationId: 'updateMe',
+    summary: 'Modifier les informations de son propre profil',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  async updateMe(
+    @Request() { user }: { user: UserEntity },
+    @Body() payload: UpdateUserDto
+  ) {
+    const updated = await this.userService.update(user.id, payload);
+    return UserDto.fromEntity(updated);
   }
 }

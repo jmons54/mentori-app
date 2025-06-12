@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { type UserDto, UserService } from '@/client-api';
-import { EditMemberModal } from '../components/editMemberModal';
 import { isAdmin } from '../utils/auth';
+import { EditMemberModal } from '../components/editMemberModal';
+import { MemberDetailsModal } from '../components/memberDetailsModal';
 
 export function Members() {
   const [members, setMembers] = useState<UserDto[]>([]);
   const [selectedMember, setSelectedMember] = useState<UserDto | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const canEdit = isAdmin();
 
@@ -16,7 +17,12 @@ export function Members() {
 
   const handleEdit = (member: UserDto) => {
     setSelectedMember(member);
-    setShowModal(true);
+    setShowEditModal(true);
+  };
+
+  const handleCardClick = (member: UserDto) => {
+    setSelectedMember(member);
+    setShowEditModal(false);
   };
 
   return (
@@ -26,7 +32,8 @@ export function Members() {
         {members.map((membre) => (
           <div
             key={membre.userId}
-            className="border rounded-lg shadow-md p-4 flex gap-4 items-center"
+            className="border rounded-lg shadow-md p-4 flex gap-4 items-center cursor-pointer hover:bg-gray-50 transition"
+            onClick={() => handleCardClick(membre)}
           >
             <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
               {membre.photo ? (
@@ -56,7 +63,10 @@ export function Members() {
 
             {canEdit && (
               <button
-                onClick={() => handleEdit(membre)}
+                onClick={(e) => {
+                  e.stopPropagation(); // empêche l'ouverture de la modal de détail
+                  handleEdit(membre);
+                }}
                 className="text-sm text-blue-600 underline ml-2"
               >
                 Modifier
@@ -66,14 +76,21 @@ export function Members() {
         ))}
       </div>
 
-      {showModal && selectedMember && (
+      {showEditModal && selectedMember && (
         <EditMemberModal
           member={selectedMember}
-          onClose={() => setShowModal(false)}
+          onClose={() => setShowEditModal(false)}
           onSave={() => {
-            setShowModal(false);
+            setShowEditModal(false);
             UserService.findAll().then(setMembers);
           }}
+        />
+      )}
+
+      {selectedMember && !showEditModal && (
+        <MemberDetailsModal
+          member={selectedMember}
+          onClose={() => setSelectedMember(null)}
         />
       )}
     </div>

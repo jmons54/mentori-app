@@ -11,6 +11,7 @@ export type { CreateUserDto } from './models/CreateUserDto';
 export type { GoogleAuthDto } from './models/GoogleAuthDto';
 export type { LoginDto } from './models/LoginDto';
 export type { RegisterDto } from './models/RegisterDto';
+export type { UpdateUserDto } from './models/UpdateUserDto';
 export type { UserDto } from './models/UserDto';
 export type { UserEntity } from './models/UserEntity';
 

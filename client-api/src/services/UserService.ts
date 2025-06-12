@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { UpdateUserDto } from '../models/UpdateUserDto';
 import type { UserDto } from '../models/UserDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -15,6 +16,22 @@ export class UserService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/user/me',
+    });
+  }
+  /**
+   * Modifier les informations de son propre profil
+   * @param requestBody
+   * @returns UserDto
+   * @throws ApiError
+   */
+  public static updateMe(
+    requestBody: UpdateUserDto,
+  ): CancelablePromise<UserDto> {
+    return __request(OpenAPI, {
+      method: 'PATCH',
+      url: '/api/user/me',
+      body: requestBody,
+      mediaType: 'application/json',
     });
   }
   /**

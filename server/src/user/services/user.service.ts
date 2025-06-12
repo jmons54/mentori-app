@@ -10,6 +10,14 @@ export class UserService {
     readonly userRepository: Repository<UserEntity>
   ) {}
 
+  async findById(id: number): Promise<UserEntity> {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
   findOneByIdentifier(identifier: string) {
     return this.userRepository.findOne({
       where: [
