@@ -18,16 +18,19 @@ export function PrivateRoute() {
     OpenAPI.TOKEN = token;
 
     UserService.me()
-      .then(() => {
+      .then((user) => {
         setAuthenticated(true);
+        localStorage.setItem('userId', user.userId.toString());
       })
       .catch(() => {
         localStorage.removeItem('jwt');
+        localStorage.removeItem('userId');
         setAuthenticated(false);
       })
       .finally(() => {
         setLoading(false);
       });
+
   }, []);
 
   if (loading) {

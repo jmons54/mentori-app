@@ -22,7 +22,8 @@ export const Messageries = () => {
     unread: boolean;
   }
 
-  const currentUserId = 999; // À remplacer par l'ID réel de l'utilisateur connecté
+  const storedUserId = localStorage.getItem('userId');
+  const currentUserId = storedUserId ? parseInt(storedUserId, 10) : null;
 
   const [contacts, setContacts] = useState<Contact[]>([]);
 
