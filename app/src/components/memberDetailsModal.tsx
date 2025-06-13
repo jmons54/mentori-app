@@ -1,19 +1,21 @@
-import { Modal } from './modal';
 import { type UserDto } from '@/client-api';
 import { Mail, Phone } from 'lucide-react';
+import { Modal } from './modal';
 
 export function MemberDetailsModal({
   member,
   onClose,
+  onSendMessage,
 }: {
   member: UserDto | null;
   onClose: () => void;
+  onSendMessage?: (member: UserDto) => void;
 }) {
   if (!member) return null;
 
   return (
     <Modal onClose={onClose}>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center text-center">
         <div className="h-24 w-24 rounded-full overflow-hidden mb-4">
           {member.photo ? (
             <img
@@ -44,21 +46,28 @@ export function MemberDetailsModal({
 
         <div className="w-full mt-6 space-y-2">
           {member.email && (
-            <div className="flex items-center text-sm">
+            <div className="flex items-center justify-center text-sm">
               <Mail size={16} className="mr-2 text-mentori-green" />
               <span>{member.email}</span>
             </div>
           )}
 
           {member.phone && (
-            <div className="flex items-center text-sm">
+            <div className="flex items-center justify-center text-sm">
               <Phone size={16} className="mr-2 text-mentori-green" />
               <span>{member.phone}</span>
             </div>
           )}
         </div>
 
-        <button className="mentori-btn mt-6 w-full">Envoyer un message</button>
+        {onSendMessage && (
+          <button
+            onClick={() => onSendMessage(member)}
+            className="mentori-btn mt-6 w-full"
+          >
+            Envoyer un message
+          </button>
+        )}
       </div>
     </Modal>
   );

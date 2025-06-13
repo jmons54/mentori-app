@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Send } from 'lucide-react';
 import { Card } from '../components/card';
 import { Input } from '../components/input';
 import { Button } from '../components/button';
 
 export const Messageries = () => {
+  const [searchParams] = useSearchParams();
   const [selectedConversation, setSelectedConversation] = useState<
     number | null
-  >(1);
+  >(null);
   const [messageInput, setMessageInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -29,11 +30,64 @@ export const Messageries = () => {
     timestamp: string;
   }
 
+  // 🔁 Initialisation depuis URL
+  useEffect(() => {
+    const userIdParam = searchParams.get('userId');
+    if (userIdParam) {
+      const userId = parseInt(userIdParam, 10);
+      if (!isNaN(userId)) {
+        setSelectedConversation(userId);
+      }
+    }
+  }, [searchParams]);
+
   const contacts: Contact[] = [
-    /* ... */
+    {
+      id: 1,
+      name: 'Thomas Dubois',
+      photo:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
+      lastMessage:
+        "Bonjour, j'aimerais en savoir plus sur votre expérience en SCPI.",
+      lastMessageTime: '09:45',
+      unread: true,
+    },
+    {
+      id: 2,
+      name: 'Sophie Martinez',
+      photo:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
+      lastMessage: 'Merci pour votre aide !',
+      lastMessageTime: 'Hier',
+      unread: false,
+    },
+    // ... autres contacts
   ];
+
   const messages: Message[] = [
-    /* ... */
+    {
+      id: 1,
+      conversationId: 1,
+      sender: 'other',
+      content:
+        "Bonjour, j'aimerais en savoir plus sur votre expérience en SCPI.",
+      timestamp: '09:45',
+    },
+    {
+      id: 2,
+      conversationId: 1,
+      sender: 'me',
+      content: 'Bien sûr, j’investis depuis 5 ans.',
+      timestamp: '09:50',
+    },
+    {
+      id: 3,
+      conversationId: 2,
+      sender: 'other',
+      content: 'Merci pour votre aide !',
+      timestamp: 'Hier',
+    },
+    // ...
   ];
 
   const filteredContacts = contacts.filter((contact) =>
@@ -51,6 +105,7 @@ export const Messageries = () => {
   const handleSendMessage = () => {
     if (messageInput.trim() === '') return;
     setMessageInput('');
+    // Envoi simulé – intégrer l’API ici si nécessaire
   };
 
   return (

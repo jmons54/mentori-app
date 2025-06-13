@@ -7,9 +7,11 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { CreateMessageDto } from './models/CreateMessageDto';
 export type { CreateUserDto } from './models/CreateUserDto';
 export type { GoogleAuthDto } from './models/GoogleAuthDto';
 export type { LoginDto } from './models/LoginDto';
+export type { MessageEntity } from './models/MessageEntity';
 export type { RegisterDto } from './models/RegisterDto';
 export type { UpdateUserDto } from './models/UpdateUserDto';
 export type { UserDto } from './models/UserDto';
@@ -18,4 +20,5 @@ export type { UserEntity } from './models/UserEntity';
 export { AdminUserService } from './services/AdminUserService';
 export { AuthService } from './services/AuthService';
 export { DefaultService } from './services/DefaultService';
+export { MessagesService } from './services/MessagesService';
 export { UserService } from './services/UserService';

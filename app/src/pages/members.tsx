@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { type UserDto, UserService } from '@/client-api';
 import { isAdmin } from '../utils/auth';
 import { EditMemberModal } from '../components/editMemberModal';
@@ -10,6 +11,7 @@ export function Members() {
   const [showEditModal, setShowEditModal] = useState(false);
 
   const canEdit = isAdmin();
+  const navigate = useNavigate();
 
   useEffect(() => {
     UserService.findAll().then(setMembers);
@@ -23,6 +25,10 @@ export function Members() {
   const handleCardClick = (member: UserDto) => {
     setSelectedMember(member);
     setShowEditModal(false);
+  };
+
+  const handleRedirectToMessages = (member: UserDto) => {
+    navigate(`/messagerie?userId=${member.userId}`);
   };
 
   return (
@@ -64,7 +70,7 @@ export function Members() {
             {canEdit && (
               <button
                 onClick={(e) => {
-                  e.stopPropagation(); // empêche l'ouverture de la modal de détail
+                  e.stopPropagation();
                   handleEdit(membre);
                 }}
                 className="text-sm text-blue-600 underline ml-2"
@@ -91,6 +97,7 @@ export function Members() {
         <MemberDetailsModal
           member={selectedMember}
           onClose={() => setSelectedMember(null)}
+          onSendMessage={handleRedirectToMessages}
         />
       )}
     </div>
