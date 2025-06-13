@@ -1,10 +1,10 @@
 import {
   Body,
   Controller,
-  Get,
+  Get, Param,
   Patch,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserDto } from '../dto/user.dto';
@@ -62,5 +62,20 @@ export class UserController {
   ) {
     const updated = await this.userService.update(user.id, payload);
     return UserDto.fromEntity(updated);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: UserDto,
+  })
+  @ApiOperation({
+    operationId: 'findById',
+    summary: 'Récupérer un utilisateur par son ID',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    const data = await this.userService.findById(parseInt(id));
+    return UserDto.fromEntity(data);
   }
 }

@@ -3,20 +3,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateMessageDto } from '../models/CreateMessageDto';
-import type { MessageEntity } from '../models/MessageEntity';
+import type { MessageDto } from '../models/MessageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class MessagesService {
   /**
-   * Envoyer un message
    * @param requestBody
-   * @returns MessageEntity
+   * @returns MessageDto
    * @throws ApiError
    */
   public static sendMessage(
     requestBody: CreateMessageDto,
-  ): CancelablePromise<MessageEntity> {
+  ): CancelablePromise<MessageDto> {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/api/messages',
@@ -25,14 +24,13 @@ export class MessagesService {
     });
   }
   /**
-   * Récupérer la conversation avec un utilisateur
    * @param userId
-   * @returns MessageEntity
+   * @returns MessageDto
    * @throws ApiError
    */
   public static getConversation(
     userId: string,
-  ): CancelablePromise<Array<MessageEntity>> {
+  ): CancelablePromise<Array<MessageDto>> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/messages/conversation/{userId}',
@@ -42,11 +40,10 @@ export class MessagesService {
     });
   }
   /**
-   * Récupérer la boîte de réception de l’utilisateur
-   * @returns MessageEntity
+   * @returns MessageDto
    * @throws ApiError
    */
-  public static getInbox(): CancelablePromise<Array<MessageEntity>> {
+  public static inbox(): CancelablePromise<Array<MessageDto>> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/messages/inbox',

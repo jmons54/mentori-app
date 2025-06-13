@@ -12,7 +12,7 @@ import { MessageService } from '../services/message.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMessageDto } from '../dto/createMessage.dto';
 import { UserEntity } from '../../user/entities/user.entity';
-import { MessageEntity } from '../entities/message.entity';
+import { MessageDto } from '../dto/message.dto';
 
 @ApiTags('messages')
 @Controller('messages')
@@ -20,36 +20,40 @@ import { MessageEntity } from '../entities/message.entity';
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @ApiOperation({ operationId: 'sendMessage', summary: 'Envoyer un message' })
-  @ApiResponse({ status: 200, type: MessageEntity })
+  @ApiResponse({ status: 200, type: MessageDto })
+  @ApiOperation({
+    operationId: 'sendMessage',
+  })
   @Post()
-  sendMessage(
+  async sendMessage(
     @Request() { user }: { user: UserEntity },
     @Body() dto: CreateMessageDto
-  ) {
-    return this.messageService.send(user.id, dto);
+  ): Promise<MessageDto> {
+    const message = await this.messageService.send(user.id, dto);
+    return MessageDto.fromEntity(message);
   }
 
+  @ApiResponse({ status: 200, type: [MessageDto] })
   @ApiOperation({
     operationId: 'getConversation',
-    summary: 'Récupérer la conversation avec un utilisateur',
   })
-  @ApiResponse({ status: 200, type: [MessageEntity] })
   @Get('conversation/:userId')
-  getConversation(
+  async getConversation(
     @Request() { user }: { user: UserEntity },
     @Param('userId') userId: string
-  ) {
-    return this.messageService.findConversation(user.id, parseInt(userId));
+  ): Promise<MessageDto[]> {
+    const messages = await this.messageService.findConversation(user.id, parseInt(userId));
+    return MessageDto.fromEntities(messages);
   }
 
+  @ApiResponse({ status: 200, type: [MessageDto] })
   @ApiOperation({
-    operationId: 'getInbox',
-    summary: 'Récupérer la boîte de réception de l’utilisateur',
+    operationId: 'inbox',
   })
-  @ApiResponse({ status: 200, type: [MessageEntity] })
   @Get('inbox')
-  getInbox(@Request() { user }: { user: UserEntity }) {
-    return this.messageService.findInbox(user.id);
+  async getInbox(@Request() { user }: { user: UserEntity }): Promise<MessageDto[]> {
+    const messages = await this.messageService.findInbox(user.id);
+    return MessageDto.fromEntities(messages);
   }
+
 }

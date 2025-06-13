@@ -44,4 +44,21 @@ export class UserService {
       url: '/api/user',
     });
   }
+  /**
+   * Récupérer un utilisateur par son ID
+   * @param id
+   * @returns UserDto
+   * @throws ApiError
+   */
+  public static findById(
+    id: string,
+  ): CancelablePromise<UserDto> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/user/{id}',
+      path: {
+        'id': id,
+      },
+    });
+  }
 }
