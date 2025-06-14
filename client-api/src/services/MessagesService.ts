@@ -49,4 +49,15 @@ export class MessagesService {
       url: '/api/messages/inbox',
     });
   }
+  /**
+   * Liste des conversations actives par utilisateur
+   * @returns MessageDto
+   * @throws ApiError
+   */
+  public static getConversations(): CancelablePromise<Array<MessageDto>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/messages/conversations',
+    });
+  }
 }

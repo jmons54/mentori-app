@@ -30,7 +30,6 @@ export function PrivateRoute() {
       .finally(() => {
         setLoading(false);
       });
-
   }, []);
 
   if (loading) {

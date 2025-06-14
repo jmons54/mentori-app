@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entities/user.entity';
 
@@ -18,9 +19,18 @@ export class MessageEntity {
   @CreateDateColumn()
   createdAt: Date;
 
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @ManyToOne(() => UserEntity, { eager: true })
   sender: UserEntity;
 
   @ManyToOne(() => UserEntity, { eager: true })
   recipient: UserEntity;
+
+  @Column({ name: 'deleted_by_sender', default: false })
+  deletedBySender: boolean;
+
+  @Column({ name: 'deleted_by_recipient', default: false })
+  deletedByRecipient: boolean;
 }

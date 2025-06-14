@@ -39,7 +39,34 @@ export class MessageService {
   async findInbox(userId: number) {
     return this.messageRepo.find({
       where: { recipient: { id: userId } },
-      order: { createdAt: 'DESC' },
+      order: { updatedAt: 'DESC' },
     });
+  }
+
+  async findConversations(userId: number): Promise<MessageEntity[]> {
+    const messages = await this.messageRepo
+      .createQueryBuilder('message')
+      .leftJoinAndSelect('message.sender', 'sender')
+      .leftJoinAndSelect('message.recipient', 'recipient')
+      .where(
+        '(sender.id = :userId AND deleted_by_sender = false) OR (recipient.id = :userId AND deleted_by_recipient = false)',
+        { userId }
+      )
+      .orderBy('message.updatedAt', 'DESC')
+      .getMany();
+
+    const seen = new Set<number>();
+    const conversations: MessageEntity[] = [];
+
+    for (const msg of messages) {
+      const otherId =
+        msg.sender.id === userId ? msg.recipient.id : msg.sender.id;
+      if (!seen.has(otherId)) {
+        seen.add(otherId);
+        conversations.push(msg);
+      }
+    }
+
+    return conversations;
   }
 }

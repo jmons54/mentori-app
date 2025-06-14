@@ -42,7 +42,10 @@ export class MessageController {
     @Request() { user }: { user: UserEntity },
     @Param('userId') userId: string
   ): Promise<MessageDto[]> {
-    const messages = await this.messageService.findConversation(user.id, parseInt(userId));
+    const messages = await this.messageService.findConversation(
+      user.id,
+      parseInt(userId)
+    );
     return MessageDto.fromEntities(messages);
   }
 
@@ -51,9 +54,23 @@ export class MessageController {
     operationId: 'inbox',
   })
   @Get('inbox')
-  async getInbox(@Request() { user }: { user: UserEntity }): Promise<MessageDto[]> {
+  async getInbox(
+    @Request() { user }: { user: UserEntity }
+  ): Promise<MessageDto[]> {
     const messages = await this.messageService.findInbox(user.id);
     return MessageDto.fromEntities(messages);
   }
 
+  @ApiResponse({ status: 200, type: [MessageDto] })
+  @ApiOperation({
+    operationId: 'getConversations',
+    summary: 'Liste des conversations actives par utilisateur',
+  })
+  @Get('conversations')
+  async getConversations(
+    @Request() { user }: { user: UserEntity }
+  ): Promise<MessageDto[]> {
+    const messages = await this.messageService.findConversations(user.id);
+    return MessageDto.fromEntities(messages);
+  }
 }
