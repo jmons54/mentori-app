@@ -2,9 +2,10 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { OpenAPI, UserService } from '@/client-api';
 
-export function PrivateRoute() {
+export function PrivateRoute({ isAdmin = false }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
@@ -21,6 +22,7 @@ export function PrivateRoute() {
       .then((user) => {
         setAuthenticated(true);
         localStorage.setItem('userId', user.userId.toString());
+        setUserIsAdmin(user.roles.includes('admin'));
       })
       .catch(() => {
         localStorage.removeItem('jwt');
@@ -30,7 +32,7 @@ export function PrivateRoute() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [isAdmin]);
 
   if (loading) {
     return <div>Chargement...</div>;
@@ -38,6 +40,10 @@ export function PrivateRoute() {
 
   if (!authenticated) {
     return <Navigate to="/login" />;
+  }
+
+  if (isAdmin && !userIsAdmin) {
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

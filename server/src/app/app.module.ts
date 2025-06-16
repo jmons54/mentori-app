@@ -4,6 +4,7 @@ import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
 import { AuthHttpModule } from '../auth/auth-http.module';
 import { MessageModule } from '../message/message.module';
+import { NewsModule } from '../news/news.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MessageModule } from '../message/message.module';
     }),
     AuthHttpModule,
     MessageModule,
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

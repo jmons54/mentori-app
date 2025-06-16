@@ -58,7 +58,7 @@ export class AuthService {
     });
 
     if (avatar) {
-      const key = `avatars/10-${avatar.originalname}`;
+      const key = `avatars/${user.id}-${avatar.originalname}`;
       const { Location } = await this.s3Service.upload(avatar.buffer, key);
       user.photo = Location;
       await this.userService.save(user);
