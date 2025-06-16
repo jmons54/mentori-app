@@ -7,6 +7,7 @@ import { PrivateRoute } from './privateRoute';
 import { ConnectedLayout } from './connectedLayout';
 import { Profile } from '../pages/profil';
 import { Messageries } from '../pages/messageries';
+import { Events } from '../pages/events';
 
 OpenAPI.BASE = process.env.REACT_APP_SERVER_URL as string;
 
@@ -17,6 +18,7 @@ export function App() {
         <Route element={<ConnectedLayout />}>
           <Route path="/" element={<Members />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/messagerie" element={<Messageries />} />
         </Route>
       </Route>

@@ -24,6 +24,12 @@ export function ConnectedLayout() {
             <Link to="/" className="hover:underline">
               Membres
             </Link>
+            <Link to="/events" className="hover:underline">
+              Événements
+            </Link>
+            <Link to="/messagerie" className="hover:underline">
+              Messages
+            </Link>
             <Link to="/profile" className="hover:underline">
               Profil
             </Link>
