@@ -1,0 +1,56 @@
+name: CI Build
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:15
+                env:
+                    POSTGRES_DB: mentori
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                ports:
+                    - 5432:5432
+
+        env:
+            DATABASE_URL: postgres://postgres:postgres@localhost:5432/mentori
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Set up Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Wait for DB
+              run: |
+                  until pg_isready -h localhost -p 5432 -U postgres; do
+                    echo "Waiting for postgres..."
+                    sleep 2
+                  done
+
+            - name: Run migrations (si tu en as)
+              run: npm run prisma:migrate
+
+            - name: Run tests
+              run: npm test
+
+            - name: Build Docker image
+              run: docker build -t myapp .
+
+            - name: Login to ECR
+              uses: aws-actions/amazon-ecr-login@v2
+
+            - name: Push to ECR
+              run: |
+                  docker tag myapp:latest ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPO }}:latest
+                  docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPO }}:latest

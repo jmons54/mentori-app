@@ -1,12 +1,35 @@
 services:
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mentori
-    container_name: postgres
-    volumes:
-      - ~/mentori-postgres:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
-    restart: always
+    postgres:
+        image: postgres:15
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: mentori
+        container_name: postgres
+        ports:
+            - '5432:5432'
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        restart: always
+
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - postgres
+        environment:
+            DATABASE_URL: postgres://postgres:postgres@postgres:5432/mentori
+        ports:
+            - '3000:3000'
+        command: npm run start:prod
+
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - backend
+        ports:
+            - '5173:5173'
+        command: npm run preview
