@@ -16,7 +16,7 @@ NestFactory.create(AppModule).then(async (app) => {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Coach Api')
+    .setTitle('Mentori Api')
     .setDescription('The coach API description')
     .setVersion('1.0')
     .addBearerAuth(
