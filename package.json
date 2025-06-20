@@ -2,7 +2,10 @@
   "name": "@org/mentori",
   "version": "0.0.0",
   "license": "MIT",
+    "workspaces": ["app", "server", "client-api"],
   "scripts": {
+      "build:app": "nx build app",
+      "build:server": "nx build server",
     "app": "nx start app",
     "app:serve": "nx serve app",
     "app:android": "nx run-android app",
