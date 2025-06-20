@@ -11,7 +11,6 @@ export type { AuthorDto } from './models/AuthorDto';
 export type { CreateMessageDto } from './models/CreateMessageDto';
 export type { CreateNewsDto } from './models/CreateNewsDto';
 export type { CreateUserDto } from './models/CreateUserDto';
-export type { GoogleAuthDto } from './models/GoogleAuthDto';
 export type { LoginDto } from './models/LoginDto';
 export type { MessageDto } from './models/MessageDto';
 export type { NewDto } from './models/NewDto';
