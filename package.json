@@ -2,10 +2,14 @@
   "name": "@org/mentori",
   "version": "0.0.0",
   "license": "MIT",
-    "workspaces": ["app", "server", "client-api"],
+  "workspaces": [
+    "app",
+    "server",
+    "client-api"
+  ],
   "scripts": {
-      "build:app": "nx build app",
-      "build:server": "nx build server",
+    "build:app": "nx build app",
+    "build:server": "nx build server",
     "app": "nx start app",
     "app:serve": "nx serve app",
     "server": "nx serve server",
@@ -87,6 +91,7 @@
     "autoprefixer": "10.4.13",
     "babel-jest": "29.7.0",
     "dotenv": "^16.5.0",
+    "dotenv-cli": "^8.0.0",
     "eslint": "~8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "10.1.5",
