@@ -12,7 +12,7 @@ NestFactory.create(AppModule).then(async (app) => {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   app.enableCors({
-    origin: process.env.ALLOW_ORIGINS,
+    origin: JSON.parse(process.env.ALLOW_ORIGINS),
   });
 
   const config = new DocumentBuilder()
