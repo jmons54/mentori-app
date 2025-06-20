@@ -1,9 +1,9 @@
-# -------- Étape 1 : Build du serveur NestJS --------
+# -------- Étape 1 : Build NestJS (backend) --------
 FROM node:20 AS builder
 
 WORKDIR /app
 
-# Copier les fichiers de configuration globaux
+# Copier les fichiers nécessaires
 COPY package*.json ./
 COPY nx.json tsconfig*.json ./
 COPY .eslintrc.json ./
@@ -11,38 +11,31 @@ COPY .eslintignore ./
 COPY .prettierrc ./
 COPY .prettierignore ./
 
-# Copier uniquement les sources nécessaires au serveur
+# Copier uniquement le backend
 COPY server ./server
 COPY client-api ./client-api
 
-# Installer les dépendances
-RUN npm install
+# Installer les dépendances avec tolérance
+RUN npm install --legacy-peer-deps --no-audit --no-fund
 
-# Build backend (NestJS uniquement)
+# Build backend
 RUN NX_DAEMON=false npx nx build server
 
 # -------- Étape 2 : Image finale légère --------
-FROM ubuntu:22.04
-
-# Installer Node.js
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    apt-get clean
+FROM node:20-slim
 
 WORKDIR /app
 
-# Copier les builds
-COPY --from=builder /app/dist/apps/server ./server
+# Copier uniquement ce qui est nécessaire à l'exécution
+COPY --from=builder /app/dist/server ./server
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
-# (Optionnel) Copier les fichiers d'environnement si requis
-# COPY server/.env ./server/.env
+# Variables d'environnement si besoin
+ENV NODE_ENV=production
 
-# Exposer le port backend
+# Exposer le port
 EXPOSE 3000
 
-# Commande de démarrage
+# Démarrer l'app
 CMD ["node", "server/main.js"]
