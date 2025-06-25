@@ -23,7 +23,7 @@ jobs:
             - name: Deploy via SSH
               run: |
                   ssh ubuntu@13.38.238.211 << 'EOF'
-                    cd /mentori-app
+                    cd ~/mentori-app
                     git pull origin main
                     npm ci
                     npm run build:server
