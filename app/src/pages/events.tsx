@@ -5,18 +5,17 @@ export function Events() {
 
   useEffect(() => {
     const updateHeight = () => {
-      const headerHeight = 64;
       const bottomNavHeight = 61;
       const isMobile = window.innerWidth < 768;
 
-      const totalOffset = isMobile ? headerHeight + bottomNavHeight : 0;
+      const totalOffset = 100 + (isMobile ? bottomNavHeight : 0);
 
       if (iframeRef.current) {
-        iframeRef.current.style.height = `${window.innerHeight - totalOffset}px`;
+        iframeRef.current.style.height = `${window.innerHeight - (totalOffset)}px`;
       }
     };
 
-    updateHeight(); // initial
+    updateHeight();
 
     window.addEventListener('resize', updateHeight);
     return () => window.removeEventListener('resize', updateHeight);
