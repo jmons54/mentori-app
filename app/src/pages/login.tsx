@@ -25,13 +25,12 @@ export function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form onSubmit={handleLogin} className="bg-white shadow-md rounded-lg w-full max-w-md p-8">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white shadow-md rounded-lg w-full max-w-md p-8"
+      >
         <div className="flex justify-center mb-6">
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-16 w-auto"
-          />
+          <img src={logo} alt="Logo" className="h-16 w-auto" />
         </div>
         {error && (
           <div className="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4 text-sm">
@@ -40,7 +39,10 @@ export function Login() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="identifier" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="identifier"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Email ou identifiant
           </label>
           <input
@@ -55,7 +57,10 @@ export function Login() {
         </div>
 
         <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Mot de passe
           </label>
           <input
