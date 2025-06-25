@@ -10,12 +10,8 @@
   "scripts": {
     "build:app": "nx build app",
     "build:server": "nx build server",
-    "app": "nx start app",
-    "app:serve": "nx serve app",
+    "app": "nx serve app",
     "server": "nx serve server",
-    "server:build": "nx build server",
-    "web": "nx dev web",
-    "web:build": "nx build web",
     "lint": "nx run-many -t lint --verbose",
     "prettier": "prettier . --write",
     "migration:run": "typeorm migration:run -- -d ./server/src/config/typeorm.ts",
