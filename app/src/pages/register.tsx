@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AuthService } from '@/client-api';
 import logo from '../assets/logo-1.png';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const steps = [
   { key: 'firstName', question: 'Quel est ton prénom ?', type: 'text' },
@@ -230,9 +231,9 @@ export function Register() {
           <button
             type="button"
             onClick={prevStep}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+            className="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
           >
-            Retour
+            <ArrowLeft className="w-5 h-5" />
           </button>
         ) : (
           <div />
@@ -243,9 +244,9 @@ export function Register() {
             type="button"
             onClick={nextStep}
             disabled={!isStepValid()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Suivant
+            <ArrowRight className="w-5 h-5" />
           </button>
         ) : (
           <button
