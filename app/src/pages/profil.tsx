@@ -77,11 +77,17 @@ export function Profile() {
   if (!user) return <p>Chargement du profil...</p>;
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 space-y-4">
-      <h1 className="text-xl font-semibold">Mon profil</h1>
-
-      {success && <p className="text-green-600">Profil mis à jour</p>}
-      {error && <p className="text-red-500">{error}</p>}
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-2 space-y-4">
+      {success && (
+        <div className="bg-green-100 text-green-700 border border-green-400 rounded px-4 py-2 text-sm">
+          Profil mis à jour
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 text-sm">
+          {error}
+        </div>
+      )}
 
       <input
         name="firstName"
@@ -94,14 +100,6 @@ export function Profile() {
         name="lastName"
         placeholder="Nom"
         value={form.lastName}
-        onChange={handleChange}
-        className="w-full border p-2"
-      />
-      <input
-        name="birthdate"
-        type="date"
-        placeholder="Date de naissance"
-        value={form.birthdate}
         onChange={handleChange}
         className="w-full border p-2"
       />

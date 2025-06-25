@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Calendar, ChevronDown, MessageSquare, Users } from 'lucide-react';
 import logo from '../assets/logo-3.png';
 
 export function ConnectedLayout() {
@@ -58,7 +58,8 @@ export function ConnectedLayout() {
                   className="w-8 h-8 rounded-full border-2 border-white object-cover"
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-gray-600 text-white flex items-center justify-center text-sm font-medium uppercase">
+                <div
+                  className="w-8 h-8 rounded-full bg-gray-600 text-white flex items-center justify-center text-sm font-medium uppercase">
                   {(user.firstName?.[0] || '') + (user.lastName?.[0] || '') ||
                     '?'}
                 </div>
@@ -90,6 +91,22 @@ export function ConnectedLayout() {
       <main className="flex-grow p-4">
         <Outlet />
       </main>
+
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-100 bg-white border-t border-gray-200 flex justify-around items-center py-2 shadow-md md:hidden">
+        <Link to="/members" className="flex flex-col items-center text-sm text-gray-600 hover:text-blue-600">
+          <Users className="h-5 w-5 mb-1" />
+          Membres
+        </Link>
+        <Link to="/events" className="flex flex-col items-center text-sm text-gray-600 hover:text-blue-600">
+          <Calendar className="h-5 w-5 mb-1" />
+          Événements
+        </Link>
+        <Link to="/messagerie" className="flex flex-col items-center text-sm text-gray-600 hover:text-blue-600">
+          <MessageSquare className="h-5 w-5 mb-1" />
+          Messages
+        </Link>
+      </nav>
     </div>
   );
 }

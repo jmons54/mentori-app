@@ -4,18 +4,22 @@ export function Events() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (iframeRef.current) {
-      iframeRef.current.style.height = `${window.innerHeight - 100}px`;
-    }
+    const updateHeight = () => {
+      const headerHeight = 64;
+      const bottomNavHeight = 61;
+      const isMobile = window.innerWidth < 768;
 
-    const handleResize = () => {
+      const totalOffset = isMobile ? headerHeight + bottomNavHeight : 0;
+
       if (iframeRef.current) {
-        iframeRef.current.style.height = `${window.innerHeight}px`;
+        iframeRef.current.style.height = `${window.innerHeight - totalOffset}px`;
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    updateHeight(); // initial
+
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
   return (
