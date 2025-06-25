@@ -30,7 +30,9 @@ export function ConnectedLayout() {
     <div className="min-h-screen flex flex-col">
       <header className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <img src={logo} alt="Logo" className="h-6" />
+          <Link to="/">
+            <img src={logo} alt="Logo" className="h-6 cursor-pointer" />
+          </Link>
         </div>
 
         <div className="flex items-center space-x-6">
