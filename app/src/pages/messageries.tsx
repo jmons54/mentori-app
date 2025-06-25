@@ -29,7 +29,8 @@ export const Messageries = () => {
     unread: boolean;
   }
 
-  const storedUserId = localStorage.getItem('userId');
+  const storedUser = localStorage.getItem('user');
+  const storedUserId = storedUser ? JSON.parse(storedUser).userId : null;
   const currentUserId = storedUserId ? parseInt(storedUserId, 10) : null;
 
   const [contacts, setContacts] = useState<Contact[]>([]);

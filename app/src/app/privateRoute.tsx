@@ -21,12 +21,13 @@ export function PrivateRoute({ isAdmin = false }) {
     UserService.me()
       .then((user) => {
         setAuthenticated(true);
-        localStorage.setItem('userId', user.userId.toString());
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log(user);
         setUserIsAdmin(user.roles.includes('admin'));
       })
       .catch(() => {
         localStorage.removeItem('jwt');
-        localStorage.removeItem('userId');
+        localStorage.removeItem('user');
         setAuthenticated(false);
       })
       .finally(() => {
