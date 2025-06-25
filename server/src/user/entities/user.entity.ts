@@ -16,23 +16,17 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   city?: string;
 
-  @Column({ type: 'date', nullable: true })
-  birthdate?: Date;
-
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true, nullable: false })
   email?: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ nullable: false })
   phone?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   password?: string;
 
   @Column({ nullable: true })
   photo?: string;
-
-  @Column({ unique: true, nullable: true })
-  googleId?: string;
 
   @Column('varchar', { array: true })
   roles: Role[] = [Role.User];

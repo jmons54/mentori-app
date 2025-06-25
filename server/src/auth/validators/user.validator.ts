@@ -10,9 +10,9 @@ import { UserService } from '../../user/services/user.service';
 export class UserAlreadyExistValidator implements ValidatorConstraintInterface {
   constructor(private readonly userService: UserService) {}
 
-  async validate(identifier: string) {
-    if (identifier) {
-      const user = await this.userService.findOneByIdentifier(identifier);
+  async validate(email: string) {
+    if (email) {
+      const user = await this.userService.findOneByEmail(email);
       return !user;
     }
     return true;

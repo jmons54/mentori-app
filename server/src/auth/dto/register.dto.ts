@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsPhoneNumber,
-  IsStrongPassword,
   IsOptional,
   IsDateString,
   MinLength,
@@ -76,7 +75,6 @@ export class RegisterDto {
     description: 'Mot de passe sécurisé',
     example: 'Str0ngP@ssword!',
   })
-  @IsStrongPassword()
   password: string;
 
   @ApiProperty({

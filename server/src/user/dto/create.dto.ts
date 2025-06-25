@@ -17,7 +17,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsPhoneNumber()
-  phone?: string;
+  phone: string;
 
   @IsEnum(Role)
   role: Role;

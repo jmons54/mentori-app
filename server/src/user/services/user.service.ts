@@ -18,17 +18,8 @@ export class UserService {
     return user;
   }
 
-  findOneByIdentifier(identifier: string) {
-    return this.userRepository.findOne({
-      where: [
-        { email: identifier, isActive: true },
-        { phone: identifier, isActive: true },
-      ],
-    });
-  }
-
-  findOneByGoogleId(googleId: string) {
-    return this.userRepository.findOneBy({ googleId, isActive: true });
+  async findOneByEmail(email: string): Promise<UserEntity | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
   createAndSave(data: DeepPartial<UserEntity>) {

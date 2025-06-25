@@ -86,7 +86,6 @@ export class UserDto {
     dto.phone = user.phone;
     dto.city = user.city;
     dto.profession = user.profession;
-    dto.birthdate = user.birthdate;
     dto.photo = user.photo;
     dto.isActive = user.isActive;
     dto.roles = user.roles;

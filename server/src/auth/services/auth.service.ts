@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { comparePassword, hashPassword } from './auth-password.service';
 import { UserEntity } from '../../user/entities/user.entity';
@@ -18,8 +18,8 @@ export class AuthService {
     readonly s3Service: AwsS3Service
   ) {}
 
-  async validateUser(identifier: string, password: string) {
-    const user = await this.userService.findOneByIdentifier(identifier);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findOneByEmail(email);
     if (
       user &&
       user.password &&
@@ -32,23 +32,19 @@ export class AuthService {
   }
 
   async register(dto: RegisterDto, avatar?: Express.Multer.File) {
-    const {
-      firstName,
-      lastName,
-      birthdate,
-      email,
-      phone,
-      password,
-      city,
-      profession,
-    } = dto;
+    const { firstName, lastName, email, phone, password, city, profession } =
+      dto;
+
+    const existing = await this.userService.findOneByEmail(email);
+    if (existing) {
+      throw new ConflictException('Email déjà utilisé');
+    }
 
     const hash = await hashPassword(password);
 
     const user = await this.userService.createAndSave({
       firstName,
       lastName,
-      birthdate,
       email,
       phone,
       city,
