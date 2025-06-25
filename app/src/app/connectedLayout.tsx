@@ -75,7 +75,7 @@ export function ConnectedLayout() {
                   className="block px-4 py-2 hover:bg-gray-100"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Profil
+                  Mon Profil
                 </Link>
                 <button
                   onClick={logout}

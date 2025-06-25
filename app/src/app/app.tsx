@@ -5,7 +5,7 @@ import { Register } from '../pages/register';
 import { Members } from '../pages/members';
 import { PrivateRoute } from './privateRoute';
 import { ConnectedLayout } from './connectedLayout';
-import { Profile } from '../pages/profil';
+import { Profile } from '../pages/profile';
 import { Messageries } from '../pages/messageries';
 import { Events } from '../pages/events';
 import { AdminLayout } from './adminLayout';
