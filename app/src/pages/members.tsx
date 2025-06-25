@@ -4,6 +4,7 @@ import { type UserDto, UserService } from '@/client-api';
 import { isAdmin } from '../utils/auth';
 import { EditMemberModal } from '../components/editMemberModal';
 import { MemberDetailsModal } from '../components/memberDetailsModal';
+import { Pencil } from 'lucide-react';
 
 export function Members() {
   const [members, setMembers] = useState<UserDto[]>([]);
@@ -32,16 +33,19 @@ export function Members() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 px-4">
-      <h1 className="text-2xl font-semibold mb-6">Liste des membres</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="max-w-5xl mx-auto mt-10 px-4">
+      <h1 className="text-3xl font-bold text-mentori-green mb-8">
+        Liste des membres
+      </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {members.map((membre) => (
           <div
             key={membre.userId}
-            className="border rounded-lg shadow-md p-4 flex gap-4 items-center cursor-pointer hover:bg-gray-50 transition"
             onClick={() => handleCardClick(membre)}
+            className="group border rounded-xl p-5 bg-white shadow-sm transition hover:ring-2 hover:ring-mentori-green cursor-pointer flex items-center gap-4"
           >
-            <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+            <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 shadow-inner">
               {membre.photo ? (
                 <img
                   src={membre.photo}
@@ -49,21 +53,21 @@ export function Members() {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full w-full text-gray-400 text-sm">
-                  ?
+                <div className="flex items-center justify-center h-full w-full text-gray-500 font-semibold text-lg uppercase">
+                  {(membre.firstName?.[0] || '') + (membre.lastName?.[0] || '')}
                 </div>
               )}
             </div>
 
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-mentori-green">
+              <h3 className="text-lg font-semibold text-mentori-green leading-tight">
                 {membre.firstName} {membre.lastName}
               </h3>
               <p className="text-sm text-gray-600">{membre.profession}</p>
               {membre.city && (
-                <div className="mt-1 text-xs px-2 py-0.5 bg-blue-200 inline-block rounded-full">
+                <span className="inline-block mt-2 text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
                   {membre.city}
-                </div>
+                </span>
               )}
             </div>
 
@@ -73,9 +77,10 @@ export function Members() {
                   e.stopPropagation();
                   handleEdit(membre);
                 }}
-                className="text-sm text-blue-600 underline ml-2"
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+                title="Modifier"
               >
-                Modifier
+                <Pencil className="w-4 h-4 text-gray-500" />
               </button>
             )}
           </div>

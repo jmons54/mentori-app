@@ -35,7 +35,7 @@ export function ConnectedLayout() {
 
         <div className="flex items-center space-x-6">
           <nav className="space-x-4 hidden md:block">
-            <Link to="/" className="hover:underline">
+            <Link to="/members" className="hover:underline">
               Membres
             </Link>
             <Link to="/events" className="hover:underline">

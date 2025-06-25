@@ -11,7 +11,9 @@ export function Events() {
       const totalOffset = 100 + (isMobile ? bottomNavHeight : 0);
 
       if (iframeRef.current) {
-        iframeRef.current.style.height = `${window.innerHeight - (totalOffset)}px`;
+        iframeRef.current.style.height = `${
+          window.innerHeight - totalOffset
+        }px`;
       }
     };
 

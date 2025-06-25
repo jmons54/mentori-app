@@ -13,10 +13,12 @@ export function MemberDetailsModal({
 }) {
   if (!member) return null;
 
+  const initials = (member.firstName?.[0] || '') + (member.lastName?.[0] || '');
+
   return (
     <Modal onClose={onClose}>
-      <div className="flex flex-col items-center text-center">
-        <div className="h-24 w-24 rounded-full overflow-hidden mb-4">
+      <div className="flex flex-col items-center text-center p-4">
+        <div className="h-24 w-24 rounded-full overflow-hidden mb-4 shadow-sm bg-gray-100">
           {member.photo ? (
             <img
               src={member.photo}
@@ -24,38 +26,38 @@ export function MemberDetailsModal({
               className="h-full w-full object-cover"
             />
           ) : (
-            <div className="h-full w-full flex items-center justify-center text-gray-400 text-sm bg-gray-100">
-              ?
+            <div className="h-full w-full flex items-center justify-center text-gray-500 text-xl font-semibold uppercase">
+              {initials}
             </div>
           )}
         </div>
 
-        <h2 className="text-xl font-futura text-mentori-green mb-1">
+        <h2 className="text-xl font-semibold text-mentori-green mb-1">
           {member.firstName} {member.lastName}
         </h2>
 
         {member.profession && (
-          <p className="text-sm text-gray-600 mb-2">{member.profession}</p>
+          <p className="text-gray-800 mb-2">{member.profession}</p>
         )}
 
         {member.city && (
-          <span className="text-xs px-2 py-0.5 bg-pastel-blue rounded-full mb-2">
+          <span className="text-xs px-3 py-1 bg-blue-100 text-blue-800 rounded-full mb-3">
             {member.city}
           </span>
         )}
 
-        <div className="w-full mt-6 space-y-2">
+        <div className="w-full mt-4 space-y-2 text-sm">
           {member.email && (
-            <div className="flex items-center justify-center text-sm">
-              <Mail size={16} className="mr-2 text-mentori-green" />
-              <span>{member.email}</span>
+            <div className="flex items-center justify-center text-gray-900">
+              <Mail size={16} className="mr-2" />
+              {member.email}
             </div>
           )}
 
           {member.phone && (
-            <div className="flex items-center justify-center text-sm">
-              <Phone size={16} className="mr-2 text-mentori-green" />
-              <span>{member.phone}</span>
+            <div className="flex items-center justify-center text-gray-900">
+              <Phone size={16} className="mr-2" />
+              {member.phone}
             </div>
           )}
         </div>
@@ -63,7 +65,7 @@ export function MemberDetailsModal({
         {onSendMessage && (
           <button
             onClick={() => onSendMessage(member)}
-            className="mentori-btn mt-6 w-full"
+            className="mt-6 w-full bg-orange-400 text-white font-medium py-2 px-4 rounded-md hover:bg-orange-500 transition-colors"
           >
             Envoyer un message
           </button>
