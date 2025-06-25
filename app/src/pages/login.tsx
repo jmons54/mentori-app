@@ -43,7 +43,7 @@ export function Login() {
             htmlFor="identifier"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Email ou identifiant
+            Email
           </label>
           <input
             id="identifier"
@@ -51,7 +51,7 @@ export function Login() {
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-            placeholder="@email.com"
+            placeholder="@gmail.com"
             required
           />
         </div>
